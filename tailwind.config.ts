@@ -1,3 +1,4 @@
+/** @type {import('tailwindcss').Config} */
 import type { Config } from "tailwindcss";
 
 export default {
@@ -14,5 +15,8 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    require("@tailwindcss/typography"),
+  ],
 } satisfies Config;
