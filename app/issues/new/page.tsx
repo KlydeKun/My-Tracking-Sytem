@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Callout, TextField } from "@radix-ui/themes";
+import { Button, Callout, Spinner, TextField } from "@radix-ui/themes";
 import { SimpleMdeReact } from "react-simplemde-editor";
 import { useForm, Controller } from "react-hook-form";
 import "easymde/dist/easymde.min.css";
@@ -25,12 +25,15 @@ const NewIssuePage = () => {
     resolver: zodResolver(createIssueSchema),
   });
   const [error, setError] = useState("");
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   const createSubmitIssue = handleSubmit(async (data: IssueForm) => {
     try {
+      setLoadingSubmit(true);
       await axios.post("/api/issues", data);
       push("/issues");
     } catch {
+      setLoadingSubmit(false);
       setError("An unexpected error occurred. Please try again.");
     }
   });
@@ -52,10 +55,11 @@ const NewIssuePage = () => {
             <SimpleMdeReact placeholder="Description" {...field} />
           )}
         />
-          <ErrorMessage>
-            {errors.description?.message}
-          </ErrorMessage>
-        <Button>Submit New Issue</Button>
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
+        <Button disabled={loadingSubmit}>
+          Submit New Issue
+          <Spinner loading={loadingSubmit} />
+        </Button>
       </form>
     </div>
   );
