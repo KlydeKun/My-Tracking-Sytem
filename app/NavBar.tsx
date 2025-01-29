@@ -12,6 +12,7 @@ const NavBar = () => {
   const links = [
     { label: "Dashboard", href: "/" },
     { label: "Issues", href: "/issues" },
+    { label: "Users", href: "/users" },
   ];
 
   return (
@@ -19,12 +20,12 @@ const NavBar = () => {
       <Link href="/">
         <AiFillBug />
       </Link>
-      <ul className="flex space-x-6">
+      <ul className="flex space-x-10">
         {links.map((link) => (
           <Link
             key={link.href}
             className={classNames({
-              "text-zinc-900": link.href === currentPath,
+              "text-zinc-900 font-medium": link.href === currentPath,
               "text-zinc-500": link.href !== currentPath,
               "hover:text-zinc-800 transition-colors": true,
             })}
