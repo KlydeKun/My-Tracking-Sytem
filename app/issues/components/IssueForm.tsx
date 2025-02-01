@@ -4,7 +4,14 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 import { createIssueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue } from "@prisma/client";
-import { Button, Callout, Spinner, TextField } from "@radix-ui/themes";
+import {
+  Button,
+  Callout,
+  Flex,
+  Select,
+  Spinner,
+  TextField,
+} from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
@@ -18,6 +25,13 @@ const SimpleMdeReact = dynamic(() => import("react-simplemde-editor"), {
 });
 
 type IssueFormData = z.infer<typeof createIssueSchema>;
+
+const priorityItems = [
+  { id: "LOW", label: "Low" },
+  { id: "MEDIUM", label: "Medium" },
+  { id: "HIGH", label: "High" },
+  { id: "CRITICAL", label: "Critical" },
+];
 
 const IssueForm = ({ issue }: { issue?: Issue }) => {
   const { push } = useRouter();
@@ -51,12 +65,39 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         </Callout.Root>
       )}
       <form className="space-y-3" onSubmit={createSubmitIssue}>
-        <TextField.Root
-          defaultValue={issue?.title}
-          placeholder="Title"
-          {...register("title")}
-        />
-        <ErrorMessage>{errors.title?.message}</ErrorMessage>
+        <Flex gap="3">
+          <TextField.Root
+            className="w-full"
+            defaultValue={issue?.title}
+            placeholder="Title"
+            {...register("title")}
+          />
+
+          <Controller
+            name="priority"
+            control={control}
+            render={({ field }) => (
+              <Select.Root value={field.value} defaultValue={issue?.priority} onValueChange={field.onChange}>
+                <Select.Trigger placeholder="Set Priority" />
+                <Select.Content color="gray">
+                  <Select.Group>
+                    {priorityItems.map((item) => (
+                      <Select.Item key={item.id} value={item.id}>
+                        {item.label}
+                      </Select.Item>
+                    ))}
+                  </Select.Group>
+                </Select.Content>
+              </Select.Root>
+            )}
+          />
+        </Flex>
+
+        <Flex justify="between" mr="8">
+          <ErrorMessage>{errors.title?.message}</ErrorMessage>
+          <ErrorMessage>{errors.priority?.message}</ErrorMessage>
+        </Flex>
+
         <Controller
           name="description"
           control={control}
