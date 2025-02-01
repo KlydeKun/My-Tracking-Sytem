@@ -65,19 +65,22 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         </Callout.Root>
       )}
       <form className="space-y-3" onSubmit={createSubmitIssue}>
-        <Flex gap="3">
+        <div className="flex flex-col md:flex-row gap-3">
           <TextField.Root
             className="w-full"
             defaultValue={issue?.title}
             placeholder="Title"
             {...register("title")}
           />
-
           <Controller
             name="priority"
             control={control}
             render={({ field }) => (
-              <Select.Root value={field.value} defaultValue={issue?.priority} onValueChange={field.onChange}>
+              <Select.Root
+                value={field.value}
+                defaultValue={issue?.priority}
+                onValueChange={field.onChange}
+              >
                 <Select.Trigger placeholder="Set Priority" />
                 <Select.Content color="gray">
                   <Select.Group>
@@ -91,7 +94,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
               </Select.Root>
             )}
           />
-        </Flex>
+        </div>
 
         <Flex justify="between" mr="8">
           <ErrorMessage>{errors.title?.message}</ErrorMessage>
