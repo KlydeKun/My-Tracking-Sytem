@@ -12,6 +12,7 @@ import {
   Select,
   Spinner,
   TextField,
+  Text
 } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
@@ -61,6 +62,9 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
 
   return (
     <div className="max-w-xl">
+      <div className="mb-5">
+        <Text className="text-lg font-semibold">{issue ? 'Update Created Issue': 'Add New Issue'}</Text>
+      </div>
       {error && (
         <Callout.Root color="red" className="mb-5">
           <Callout.Text>{error}</Callout.Text>
