@@ -3,7 +3,7 @@
 import ErrorMessage from "@/app/components/ErrorMessage";
 import { issueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Issue } from "@prisma/client";
+import { Issue, Priority } from "@prisma/client";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import {
   Button,
@@ -27,7 +27,7 @@ const SimpleMdeReact = dynamic(() => import("react-simplemde-editor"), {
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
-const priorityItems = [
+const priorityItems: { id: Priority; label: string }[] = [
   { id: "LOW", label: "Low" },
   { id: "MEDIUM", label: "Medium" },
   { id: "HIGH", label: "High" },
@@ -50,7 +50,8 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
   const createSubmitIssue = handleSubmit(async (data: IssueFormData) => {
     try {
       setLoadingSubmit(true);
-      await axios.post("/api/issues", data);
+      if (issue) await axios.patch(`/api/issues/${issue.id}`, data);
+      else await axios.post("/api/issues", data);
       push("/issues");
     } catch {
       setLoadingSubmit(false);
@@ -76,12 +77,9 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
           <Controller
             name="priority"
             control={control}
+            defaultValue={issue?.priority}
             render={({ field }) => (
-              <Select.Root
-                value={field.value}
-                defaultValue={issue?.priority}
-                onValueChange={field.onChange}
-              >
+              <Select.Root value={field.value} onValueChange={field.onChange}>
                 <Select.Trigger placeholder="Set Priority" />
                 <Select.Content color="gray">
                   <Select.Group>
@@ -113,7 +111,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button disabled={loadingSubmit} variant="surface" color="ruby">
           <PaperPlaneIcon />
-          Submit New Issue
+          {issue ? "Update Issue" : "Submit New Issue"}{" "}
           <Spinner loading={loadingSubmit} />
         </Button>
       </form>
