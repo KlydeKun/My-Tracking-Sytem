@@ -1,7 +1,7 @@
 "use client";
 
 import ErrorMessage from "@/app/components/ErrorMessage";
-import { createIssueSchema } from "@/app/validationSchema";
+import { issueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue } from "@prisma/client";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
@@ -25,7 +25,7 @@ const SimpleMdeReact = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
 const priorityItems = [
   { id: "LOW", label: "Low" },
@@ -42,7 +42,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<IssueFormData>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(issueSchema),
   });
   const [error, setError] = useState("");
   const [loadingSubmit, setLoadingSubmit] = useState(false);
