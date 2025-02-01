@@ -4,6 +4,7 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 import { createIssueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue } from "@prisma/client";
+import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import {
   Button,
   Callout,
@@ -110,7 +111,8 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button disabled={loadingSubmit}>
+        <Button disabled={loadingSubmit} variant="surface" color="ruby">
+          <PaperPlaneIcon />
           Submit New Issue
           <Spinner loading={loadingSubmit} />
         </Button>

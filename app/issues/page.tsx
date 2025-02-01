@@ -7,6 +7,15 @@ import PriorityStatusBadge from "../components/PriorityStatusBadge";
 
 const IssuesPage = async () => {
   const issues = prisma.issue.findMany();
+
+  const dateFormatter = (issue: { createdAt: Date }) => {
+    return new Date(issue.createdAt).toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "2-digit",
+    });
+  };
   return (
     <div>
       <IssueActions />
@@ -17,11 +26,9 @@ const IssuesPage = async () => {
             <Table.ColumnHeaderCell className="hidden md:table-cell">
               Status
             </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>
-              Priority
-            </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Priority</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Created
+              Issue Created
             </Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
@@ -33,7 +40,7 @@ const IssuesPage = async () => {
                   className="text-violet-600 hover:underline"
                   href={`/issues/${issue.id}`}
                 >
-                  {issue.title}
+                  {issue.title.charAt(0).toUpperCase() + issue.title.slice(1)}
                 </Link>
                 <div className="block md:hidden">
                   <IssueStatusBadge status={issue.status} />
@@ -46,7 +53,7 @@ const IssuesPage = async () => {
                 <PriorityStatusBadge priority={issue.priority} />
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
-                {issue.createdAt.toDateString()}
+                {dateFormatter(issue)}
               </Table.Cell>
             </Table.Row>
           ))}
