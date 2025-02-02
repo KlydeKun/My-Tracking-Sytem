@@ -7,10 +7,16 @@ const IssueActions = () => {
   return (
     <div>
       <div className="mb-5">
-        <Button variant="surface" color="green">
-          <PlusIcon />
-          <Link href={"/issues/newIssue"}>New issue</Link>
-        </Button>
+        <Link href={"/issues/newIssue"}>
+          <Button
+            variant="surface"
+            color="green"
+            className="hover:cursor-pointer"
+          >
+            <PlusIcon />
+            New issue
+          </Button>
+        </Link>
       </div>
     </div>
   );

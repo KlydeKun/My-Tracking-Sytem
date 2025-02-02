@@ -4,7 +4,7 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 import { issueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue, Priority } from "@prisma/client";
-import { PaperPlaneIcon } from "@radix-ui/react-icons";
+import { Cross1Icon, PaperPlaneIcon } from "@radix-ui/react-icons";
 import {
   Button,
   Callout,
@@ -12,11 +12,12 @@ import {
   Select,
   Spinner,
   TextField,
-  Text
+  Text,
 } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -63,7 +64,9 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
   return (
     <div className="max-w-xl">
       <div className="mb-5">
-        <Text className="text-lg font-semibold">{issue ? 'Update Created Issue': 'Add New Issue'}</Text>
+        <Text className="text-lg font-semibold">
+          {issue ? "Update Created Issue" : "Add New Issue"}
+        </Text>
       </div>
       {error && (
         <Callout.Root color="red" className="mb-5">
@@ -113,11 +116,30 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
           )}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button disabled={loadingSubmit} variant="surface" color="ruby">
-          <PaperPlaneIcon />
-          {issue ? "Update Issue" : "Submit New Issue"}{" "}
-          <Spinner loading={loadingSubmit} />
-        </Button>
+        <Flex gap="4">
+          <Button
+            type="submit"
+            disabled={loadingSubmit}
+            variant="surface"
+            color="ruby"
+            className="hover:cursor-pointer"
+          >
+            <PaperPlaneIcon />
+            {issue ? "Update Issue" : "Submit New Issue"}{" "}
+            <Spinner loading={loadingSubmit} />
+          </Button>
+          <Link href={issue ? `/issues/${issue.id}` : "/issues"}>
+            <Button
+              type="button"
+              variant="surface"
+              color="gray"
+              className="hover:cursor-pointer"
+            >
+              <Cross1Icon />
+              Cancel
+            </Button>
+          </Link>
+        </Flex>
       </form>
     </div>
   );

@@ -5,10 +5,12 @@ import React from "react";
 
 const EditIssueButton = ({ issueId }: { issueId: string }) => {
   return (
-    <Button variant="surface" color="orange">
-      <Pencil2Icon />
-      <Link href={`/issues/${issueId}/editIssue`}>Edit Issue</Link>
-    </Button>
+    <Link href={`/issues/${issueId}/editIssue`}>
+      <Button variant="surface" color="orange" className="hover:cursor-pointer">
+        <Pencil2Icon />
+        Edit Issue
+      </Button>
+    </Link>
   );
 };
 
