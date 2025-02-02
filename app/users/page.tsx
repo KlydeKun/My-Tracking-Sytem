@@ -8,7 +8,7 @@ const UserPage = () => {
     <div>
       <Button variant='surface' color='green'>
         <PersonIcon />
-        <Link href={"/users/new"}>New User</Link>
+        <Link href={"/users/newUser"}>New User</Link>
       </Button>
     </div>
   )

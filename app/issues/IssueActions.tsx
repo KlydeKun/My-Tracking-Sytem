@@ -9,7 +9,7 @@ const IssueActions = () => {
       <div className="mb-5">
         <Button variant="surface" color="green">
           <PlusIcon />
-          <Link href={"/issues/new"}>New issue</Link>
+          <Link href={"/issues/newIssue"}>New issue</Link>
         </Button>
       </div>
     </div>
