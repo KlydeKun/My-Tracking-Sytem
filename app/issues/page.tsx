@@ -1,25 +1,34 @@
 import React from "react";
 import { Table, Link } from "@radix-ui/themes";
-import prisma from "@/prisma/client";
 import IssueStatusBadge from "../components/IssueStatusBadge";
 import IssueActions from "./IssueActions";
-// import Link from "next/link";
+import prisma from "@/prisma/client";
+import PriorityStatusBadge from "../components/PriorityStatusBadge";
 
 const IssuesPage = async () => {
   const issues = prisma.issue.findMany();
 
+  const dateFormatter = (issue: { createdAt: Date }) => {
+    return new Date(issue.createdAt).toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "2-digit",
+    });
+  };
   return (
     <div>
       <IssueActions />
-      <Table.Root variant="surface">
+      <Table.Root className="border border-gray-200 rounded-md">
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className="hidden md:table-cell">
               Status
             </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Priority</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Created
+              Issue Created
             </Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
@@ -28,10 +37,10 @@ const IssuesPage = async () => {
             <Table.Row key={issue.id}>
               <Table.Cell>
                 <Link
-                  className="text-violet-600 hover:underline"
+                  className="hover:underline"
                   href={`/issues/${issue.id}`}
                 >
-                  {issue.title}
+                  <span className="text-black">{issue.title.charAt(0).toUpperCase() + issue.title.slice(1)}</span>
                 </Link>
                 <div className="block md:hidden">
                   <IssueStatusBadge status={issue.status} />
@@ -40,8 +49,11 @@ const IssuesPage = async () => {
               <Table.Cell className="hidden md:table-cell">
                 <IssueStatusBadge status={issue.status} />
               </Table.Cell>
+              <Table.Cell>
+                <PriorityStatusBadge priority={issue.priority} />
+              </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
-                {issue.createdAt.toDateString()}
+                {dateFormatter(issue)}
               </Table.Cell>
             </Table.Row>
           ))}

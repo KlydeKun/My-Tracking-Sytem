@@ -3,9 +3,10 @@ import React from 'react'
 
 const LoadingNewIssuePage = () => {
   return (
-    <Box className='max-w-xl space-y-2'>
-      <Skeleton height="2rem" />
-      <Skeleton height="20rem" />
+    <Box className='max-w-xl'>
+      <Skeleton height="2rem" mb="1rem" />
+      <Skeleton height="20rem" mb="2rem" />
+      <Skeleton height="2rem" width="10rem" />
     </Box>
   )
 }
