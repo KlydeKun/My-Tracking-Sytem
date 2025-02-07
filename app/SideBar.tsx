@@ -28,9 +28,9 @@ const SideBar = ({
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title} className="p-2">
+                <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <a href={item.url} style={{ height:"2.5rem" }}>
                       <item.icon />
                       <span className="font-medium text-base">{item.title}</span>
                     </a>
