@@ -9,8 +9,8 @@ const IssueActions = () => {
       <div className="mb-5">
         <Link href={"/issues/newIssue"}>
           <Button
-            variant="surface"
-            color="green"
+            variant="outline"
+            color="gray"
             className="hover:cursor-pointer"
           >
             <PlusIcon />

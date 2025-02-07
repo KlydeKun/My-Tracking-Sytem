@@ -120,8 +120,8 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
           <Button
             type="submit"
             disabled={loadingSubmit}
-            variant="surface"
-            color="ruby"
+            variant="outline"
+            color="gray"
             className="hover:cursor-pointer"
           >
             <PaperPlaneIcon />

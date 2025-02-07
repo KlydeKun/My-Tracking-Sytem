@@ -1,20 +1,16 @@
 import "@radix-ui/themes/styles.css";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Roboto } from "next/font/google";
 import { Flex, Theme } from "@radix-ui/themes";
 import SideBar from "./SideBar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { BreadcrumbBar } from "./BreadCrumbBar";
 import { LayoutDashboard, ClipboardList, User } from "lucide-react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const getRoboto = Roboto({
+  weight: "400",
+  variable: "--font-roboto",
   subsets: ["latin"],
 });
 
@@ -28,7 +24,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const menuItems = [
     {
       title: "Dashboard",
@@ -49,9 +44,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${getRoboto.className} antialiased`}>
         <Theme appearance="light" accentColor="violet">
           <SidebarProvider>
             <SideBar menuItems={menuItems} />

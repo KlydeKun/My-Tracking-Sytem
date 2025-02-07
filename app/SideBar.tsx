@@ -18,9 +18,9 @@ const SideBar = ({
 }) => {
   return (
     <Sidebar>
-      <SidebarContent>
+      <SidebarContent className="bg-white">
         <SidebarGroup>
-          <SidebarGroupLabel className="font-semibold text-lg mt-2 flex gap-2 items-center text-black">
+          <SidebarGroupLabel className="font-semibold text-base mt-2 flex gap-2 items-center text-black">
             <BugIcon />
             Issue Tracking System
           </SidebarGroupLabel>
@@ -30,9 +30,11 @@ const SideBar = ({
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} style={{ height:"2.5rem" }}>
+                    <a href={item.url} style={{ height: "2.5rem" }}>
                       <item.icon />
-                      <span className="font-medium text-base">{item.title}</span>
+                      <span className="font-medium text-base">
+                        {item.title}
+                      </span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

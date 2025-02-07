@@ -6,7 +6,7 @@ import React from "react";
 const EditIssueButton = ({ issueId }: { issueId: string }) => {
   return (
     <Link href={`/issues/${issueId}/editIssue`}>
-      <Button variant="surface" color="orange" className="hover:cursor-pointer">
+      <Button variant="outline" color="gray" className="hover:cursor-pointer">
         <Pencil2Icon />
         Edit Issue
       </Button>

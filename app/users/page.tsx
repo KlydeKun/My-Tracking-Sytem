@@ -6,7 +6,7 @@ import React from 'react'
 const UserPage = () => {
   return (
     <div>
-      <Button variant='surface' color='green'>
+      <Button variant='outline' color='gray'>
         <PersonIcon />
         <Link href={"/users/newUser"}>New User</Link>
       </Button>

@@ -37,10 +37,10 @@ const IssuesPage = async () => {
             <Table.Row key={issue.id}>
               <Table.Cell>
                 <Link
-                  className="text-violet-600 hover:underline"
+                  className="hover:underline"
                   href={`/issues/${issue.id}`}
                 >
-                  {issue.title.charAt(0).toUpperCase() + issue.title.slice(1)}
+                  <span className="text-black">{issue.title.charAt(0).toUpperCase() + issue.title.slice(1)}</span>
                 </Link>
                 <div className="block md:hidden">
                   <IssueStatusBadge status={issue.status} />
