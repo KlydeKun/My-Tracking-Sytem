@@ -8,7 +8,7 @@ const LoadingIssuesPage = () => {
   return (
     <div>
       <IssueActions />
-      <Table.Root variant="surface">
+      <Table.Root className="border border-gray-200 rounded-md">
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
