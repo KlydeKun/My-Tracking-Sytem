@@ -102,8 +102,10 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
           />
         </div>
 
-        <Flex justify="between" mr="8">
-          <ErrorMessage>{errors.title?.message}</ErrorMessage>
+        <Flex justify={errors.title?.message ? "between" : "end"} mr="8">
+          {errors.title?.message && (
+            <ErrorMessage>{errors.title?.message}</ErrorMessage>
+          )}
           <ErrorMessage>{errors.priority?.message}</ErrorMessage>
         </Flex>
 
