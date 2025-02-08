@@ -2,7 +2,7 @@ import "@radix-ui/themes/styles.css";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import { Flex, Theme } from "@radix-ui/themes";
+import { Container, Flex, Theme } from "@radix-ui/themes";
 import SideBar from "./SideBar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { BreadcrumbBar } from "./BreadCrumbBar";
@@ -53,7 +53,7 @@ export default function RootLayout({
                 <SidebarTrigger />
                 <BreadcrumbBar />
               </Flex>
-              {children}
+              <Container>{children}</Container>
             </main>
           </SidebarProvider>
         </Theme>
