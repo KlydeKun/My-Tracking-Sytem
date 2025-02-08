@@ -4,7 +4,6 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 import { issueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue, Priority } from "@prisma/client";
-import { Cross1Icon, PaperPlaneIcon } from "@radix-ui/react-icons";
 import {
   Button,
   Callout,
@@ -126,7 +125,6 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
             color="gray"
             className="hover:cursor-pointer"
           >
-            <PaperPlaneIcon />
             {issue ? "Update Issue" : "Submit New Issue"}{" "}
             <Spinner loading={loadingSubmit} />
           </Button>
@@ -137,7 +135,6 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
               color="gray"
               className="hover:cursor-pointer"
             >
-              <Cross1Icon />
               Cancel
             </Button>
           </Link>

@@ -5,17 +5,17 @@ import IssueActions from "./IssueActions";
 import prisma from "@/prisma/client";
 import PriorityStatusBadge from "../components/PriorityStatusBadge";
 
-const IssuesPage = async () => {
-  const issues = prisma.issue.findMany();
+export const DateFormatter = (issue: { createdAt: Date }) => {
+  return new Date(issue.createdAt).toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+  });
+};
 
-  const dateFormatter = (issue: { createdAt: Date }) => {
-    return new Date(issue.createdAt).toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "2-digit",
-    });
-  };
+const IssuesPage = async () => {
+  const issues = prisma.issue.findMany();  
   return (
     <div>
       <IssueActions />
@@ -53,7 +53,7 @@ const IssuesPage = async () => {
                 <PriorityStatusBadge priority={issue.priority} />
               </Table.Cell>
               <Table.Cell className="hidden md:table-cell">
-                {dateFormatter(issue)}
+                {DateFormatter(issue)}
               </Table.Cell>
             </Table.Row>
           ))}
