@@ -8,50 +8,81 @@ import React, { useState } from "react";
 const DeleteIssueButton = ({ issueId }: { issueId: string }) => {
   const router = useRouter();
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [error, setError] = useState(false);
+  const [alertClose, setAlertClose] = useState(false);
 
   const handleDeleteIssue = async () => {
-    setLoadingDelete(true);
     try {
+      setLoadingDelete(true);
       await axios.delete(`/api/issues/${issueId}`);
-    } catch (error) {
-      console.error("Error deleting issue", error);
-    } finally {
       router.push("/issues");
       router.refresh();
+    } catch {
+      setError(true);
+      if (!error) setAlertClose(false);
     }
   };
 
   return (
-    <AlertDialog.Root>
-      <AlertDialog.Trigger>
-        <Button variant="outline" color="ruby" className="hover:cursor-pointer">
-          Delete Issue
-        </Button>
-      </AlertDialog.Trigger>
-      <AlertDialog.Content>
-        <AlertDialog.Title>Delete Confirmation</AlertDialog.Title>
-        <AlertDialog.Description>
-          Are you sure you want to delete this issue? Once deleted, it cannot be
-          undone.
-        </AlertDialog.Description>
-        <Flex mt="4" gap="3">
-          <AlertDialog.Cancel>
-            <Button variant="outline" color="gray">
-              Cancel
-            </Button>
-          </AlertDialog.Cancel>
+    <>
+      <AlertDialog.Root open={alertClose}>
+        <AlertDialog.Trigger>
           <Button
             variant="outline"
-            color="red"
-            onClick={handleDeleteIssue}
-            disabled={loadingDelete}
+            color="ruby"
+            className="hover:cursor-pointer"
+            onClick={() => setAlertClose(true)}
           >
-            Confirm
-            <Spinner loading={loadingDelete} />
+            Delete Issue
           </Button>
-        </Flex>
-      </AlertDialog.Content>
-    </AlertDialog.Root>
+        </AlertDialog.Trigger>
+        <AlertDialog.Content>
+          <AlertDialog.Title>Delete Confirmation</AlertDialog.Title>
+          <AlertDialog.Description>
+            Are you sure you want to delete this issue? Once deleted, it cannot
+            be undone.
+          </AlertDialog.Description>
+          <Flex mt="4" gap="3">
+            <AlertDialog.Cancel>
+              <Button
+                variant="outline"
+                color="gray"
+                onClick={() => setAlertClose(false)}
+              >
+                Cancel
+              </Button>
+            </AlertDialog.Cancel>
+            <Button
+              variant="outline"
+              color="red"
+              onClick={handleDeleteIssue}
+              disabled={loadingDelete}
+            >
+              Confirm
+              <Spinner loading={loadingDelete} />
+            </Button>
+          </Flex>
+        </AlertDialog.Content>
+      </AlertDialog.Root>
+      <AlertDialog.Root open={error}>
+        <AlertDialog.Content>
+          <AlertDialog.Title>Error Deleting Issue</AlertDialog.Title>
+          <AlertDialog.Description>
+            An error occurred deleting the issue. Please try again or contact
+            support if it persists.
+          </AlertDialog.Description>
+          <Flex mt="4">
+            <Button
+              variant="outline"
+              color="gray"
+              onClick={() => setError(false)}
+            >
+              Okay
+            </Button>
+          </Flex>
+        </AlertDialog.Content>
+      </AlertDialog.Root>
+    </>
   );
 };
 
