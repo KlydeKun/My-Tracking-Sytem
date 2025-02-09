@@ -4,18 +4,10 @@ import IssueStatusBadge from "../components/IssueStatusBadge";
 import IssueActions from "./IssueActions";
 import prisma from "@/prisma/client";
 import PriorityStatusBadge from "../components/PriorityStatusBadge";
-
-export const DateFormatter = (issue: { createdAt: Date }) => {
-  return new Date(issue.createdAt).toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "2-digit",
-  });
-};
+import { DateFormatter } from "@/lib/utils";
 
 const IssuesPage = async () => {
-  const issues = prisma.issue.findMany();  
+  const issues = await prisma.issue.findMany();
   return (
     <div>
       <IssueActions />
@@ -33,14 +25,13 @@ const IssuesPage = async () => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {(await issues).map((issue) => (
+          {issues.map((issue) => (
             <Table.Row key={issue.id}>
               <Table.Cell>
-                <Link
-                  className="hover:underline"
-                  href={`/issues/${issue.id}`}
-                >
-                  <span className="text-black">{issue.title.charAt(0).toUpperCase() + issue.title.slice(1)}</span>
+                <Link className="hover:underline" href={`/issues/${issue.id}`}>
+                  <span className="text-black">
+                    {issue.title.charAt(0).toUpperCase() + issue.title.slice(1)}
+                  </span>
                 </Link>
                 <div className="block md:hidden">
                   <IssueStatusBadge status={issue.status} />
@@ -62,5 +53,7 @@ const IssuesPage = async () => {
     </div>
   );
 };
+
+export const dynamic = "force-dynamic";
 
 export default IssuesPage;

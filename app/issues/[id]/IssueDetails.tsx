@@ -3,7 +3,7 @@ import PriorityStatusBadge from "@/app/components/PriorityStatusBadge";
 import { Issue } from "@prisma/client";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import ReactMarkdown from "react-markdown";
-import { DateFormatter } from "@/app/issues/page";
+import { DateFormatter } from "@/lib/utils";
 
 const IssueDetails = ({ issue }: { issue: Issue }) => {
   return (
