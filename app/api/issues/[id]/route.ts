@@ -6,7 +6,7 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params;
+  const getParams = await params;
   const body = await request.json();
   const validation = issueSchema.safeParse(body);
 
@@ -14,7 +14,7 @@ export async function PATCH(
     return NextResponse.json(validation.error.format(), { status: 400 });
 
   const issue = await prisma.issue.findUnique({
-    where: { id: id },
+    where: { id: getParams.id },
   });
 
   if (!issue)
@@ -30,4 +30,24 @@ export async function PATCH(
   });
 
   return NextResponse.json(updatedIssue);
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const getParams = await params;
+
+  const issue = await prisma.issue.findUnique({
+    where: { id: getParams.id },
+  });
+
+  if (!issue)
+    return NextResponse.json({ error: "Invalid issue" }, { status: 404 });
+
+  await prisma.issue.delete({
+    where: { id: issue.id },
+  });
+
+  return NextResponse.json({ message: "successfully delete issue!" });
 }
