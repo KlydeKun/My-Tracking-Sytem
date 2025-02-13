@@ -17,14 +17,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Separator } from "@radix-ui/themes";
+import { Avatar, Separator } from "@radix-ui/themes";
 import {
   BugIcon,
   ChevronUp,
   ClipboardList,
   LayoutDashboard,
   User,
-  User2,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -78,7 +77,12 @@ const SideBar = ({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <User2 /> {session?.user?.name ?? "User"}
+                  <Avatar
+                    src={session?.user?.image ?? undefined}
+                    fallback="A"
+                    size="2"
+                  />
+                  <span>{session?.user?.name}</span>
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -86,12 +90,17 @@ const SideBar = ({
                 side="top"
                 className="w-[--radix-popper-anchor-width]"
               >
-                <DropdownMenuItem asChild>
-                  {status === "unauthenticated" ? (
-                    <Link href="/api/auth/signin">Sign In</Link>
-                  ) : (
-                    <Link href="/api/auth/signout">Sign out</Link>
-                  )}
+                {status === "authenticated" && (
+                  <DropdownMenuItem asChild>
+                    <span>{session?.user?.email}</span>
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem asChild className="cursor-pointer">
+                    {status === "unauthenticated" ? (
+                      <Link href="/api/auth/signin">Sign In</Link>
+                    ) : (
+                      <Link href="/api/auth/signout">Sign out</Link>
+                    )}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
