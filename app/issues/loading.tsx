@@ -19,7 +19,7 @@ const LoadingIssuesPage = () => {
               Priority
             </Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Created
+              Issue Created
             </Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>

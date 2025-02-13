@@ -53,7 +53,7 @@ export default function RootLayout({
                 <SidebarTrigger />
                 <BreadcrumbBar />
               </Flex>
-              {children}
+              <div className="lg:mx-10">{children}</div>
             </main>
           </SidebarProvider>
         </Theme>
