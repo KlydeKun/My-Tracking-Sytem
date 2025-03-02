@@ -4,7 +4,6 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 import { issueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue, Priority } from "@prisma/client";
-import { Cross1Icon, PaperPlaneIcon } from "@radix-ui/react-icons";
 import {
   Button,
   Callout,
@@ -45,6 +44,11 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
     formState: { errors },
   } = useForm<IssueFormData>({
     resolver: zodResolver(issueSchema),
+    defaultValues: {
+      title: issue?.title,
+      priority: issue?.priority,
+      description: issue?.description,
+    },
   });
   const [error, setError] = useState("");
   const [loadingSubmit, setLoadingSubmit] = useState(false);
@@ -55,9 +59,11 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
       if (issue) await axios.patch(`/api/issues/${issue.id}`, data);
       else await axios.post("/api/issues", data);
       push("/issues");
-    } catch {
+    } catch (error) {
       setLoadingSubmit(false);
-      setError("An unexpected error occurred. Please try again.");
+      setError(axios.isAxiosError(error) 
+        ? error.response?.data?.message || "An unexpected error occurred."
+        : "An unexpected error occurred.");
     }
   });
 
@@ -126,7 +132,6 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
             color="gray"
             className="hover:cursor-pointer"
           >
-            <PaperPlaneIcon />
             {issue ? "Update Issue" : "Submit New Issue"}{" "}
             <Spinner loading={loadingSubmit} />
           </Button>
@@ -137,7 +142,6 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
               color="gray"
               className="hover:cursor-pointer"
             >
-              <Cross1Icon />
               Cancel
             </Button>
           </Link>

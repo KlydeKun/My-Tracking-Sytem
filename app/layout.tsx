@@ -1,17 +1,14 @@
 import "@radix-ui/themes/styles.css";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
-import { Flex, Theme } from "@radix-ui/themes";
-import SideBar from "./SideBar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { BreadcrumbBar } from "./BreadCrumbBar";
-import { LayoutDashboard, ClipboardList, User } from "lucide-react";
+import { Inter } from "next/font/google";
+import { Container, Theme } from "@radix-ui/themes";
+import NavBar from "./NavBar";
+import AuthProvider from "./auth/Provider";
 
-const getRoboto = Roboto({
-  weight: "400",
-  variable: "--font-roboto",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -24,39 +21,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const menuItems = [
-    {
-      title: "Dashboard",
-      url: "/",
-      icon: LayoutDashboard,
-    },
-    {
-      title: "Issues",
-      url: "/issues",
-      icon: ClipboardList,
-    },
-    {
-      title: "Users",
-      url: "/users",
-      icon: User,
-    },
-  ];
-
   return (
     <html lang="en">
-      <body className={`${getRoboto.className} antialiased`}>
-        <Theme appearance="light" accentColor="violet">
-          <SidebarProvider>
-            <SideBar menuItems={menuItems} />
-            <main className="p-5 w-full space-y-5">
-              <Flex gap="3" align="center">
-                <SidebarTrigger />
-                <BreadcrumbBar />
-              </Flex>
-              {children}
+      <body className={inter.variable}>
+        <AuthProvider>
+          <Theme accentColor="violet" appearance="light">
+            <NavBar />
+            <main className="p-5">
+              <Container>{children}</Container>
             </main>
-          </SidebarProvider>
-        </Theme>
+          </Theme>
+        </AuthProvider>
       </body>
     </html>
   );
